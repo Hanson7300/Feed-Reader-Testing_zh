@@ -26,7 +26,8 @@ $(function() {
      */
     it('all element has non-enpty resource  url', function() {
       for (feed of allFeeds) {
-        expect(feed.url).not.toBeNull();
+        expect(allFeeds).toBeDefined();
+        expect(feed.url).not.toBe('');
       }
     });
 
@@ -35,7 +36,8 @@ $(function() {
      */
     it('all element has non-enpty resource name', function() {
       for (feed of allFeeds) {
-        expect(feed.name).not.toBeNull();
+        expect(allFeeds).toBeDefined();
+        expect(feed.name).not.toBe('');
       }
     });
   });
@@ -64,6 +66,7 @@ $(function() {
       expect(body.hasClass('menu-hidden')).toBeTruthy();
     });
   });
+
   /* TODO: 13. 写一个叫做 "Initial Entries" 的测试用例 */
   describe('Initial Entries', function() {
 
@@ -74,17 +77,14 @@ $(function() {
      * 记住 loadFeed() 函数是异步的所以这个而是应该使用 Jasmine 的 beforeEach
      * 和异步的 done() 函数。
      */
-     beforeEach(function(done){
-       loadFeed(0,function(){
-         done();
-       });
-     });
+    beforeEach(function(done) {
+      loadFeed(0, done());
+    });
 
-     var container=$('.feed');
-     it('at least has one entry',function(done){
-       expect(container.size()).not.toBe(0);
-       done();
-     });
+    var container = $('.feed');
+    it('at least has one entry', function() {
+      expect(container.size()).not.toBe(0);
+    });
   });
 
   /* TODO: 写一个叫做 "New Feed Selection" 的测试用例 */
@@ -93,19 +93,25 @@ $(function() {
      * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
      * 记住，loadFeed() 函数是异步的。
      */
-     var container=$('.feed');
+    var container = $('.feed');
+    var container_1, container_0;
 
-     beforeEach(function(done){
-       for(var i = allFeeds.length-1;i>0;i--){
-       loadFeed(3,function(){
-         done();
-       });
-     }
-     });
-     it('container context should change when loadFeed call',function(done){
-       expect(container).not.toBe($('.feed'));
-       done();
-     })
+    beforeEach(function(done) {
+      loadFeed(1, function() {
+          container_1 = container;
+          done();
+        loadFeed(0, function() {
+          container_0 = contaier;
+          done();
+        });
+
+      });
+    }, 10000);
+
+    it('container context should change when loadFeed call', function(done) {
+      expect(container_1).not.toEqual(container_0);
+      done();
+    });
 
   });
 
