@@ -16,6 +16,7 @@ $(function() {
      * 比如你把 app.js 里面的 allFeeds 变量变成一个空的数组然后刷新
      * 页面看看会发生什么。
      */
+
     it('are defined', function() {
       expect(allFeeds).toBeDefined();
       expect(allFeeds.length).not.toBe(0);
@@ -93,23 +94,20 @@ $(function() {
      * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
      * 记住，loadFeed() 函数是异步的。
      */
-    var container = $('.feed');
-    var container_1, container_0;
-
+     var h2_0, h2_1;
     beforeEach(function(done) {
       loadFeed(1, function() {
-          container_1 = container;
+           h2_1 =$('.feed .entry-link h2').html();
           done();
         loadFeed(0, function() {
-          container_0 = contaier;
+          h2_0 = $('.feed .entry-link h2').html();
           done();
         });
-
       });
     }, 10000);
 
     it('container context should change when loadFeed call', function(done) {
-      expect(container_1).not.toEqual(container_0);
+      expect( h2_1).not.toEqual(h2_0);
       done();
     });
 
