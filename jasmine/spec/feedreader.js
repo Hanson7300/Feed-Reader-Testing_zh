@@ -94,20 +94,19 @@ $(function() {
      * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
      * 记住，loadFeed() 函数是异步的。
      */
-     var h2_0, h2_1;
+    var h2_1,h2_2;
     beforeEach(function(done) {
       loadFeed(1, function() {
-           h2_1 =$('.feed .entry-link h2').html();
-          done();
-        loadFeed(0, function() {
-          h2_0 = $('.feed .entry-link h2').html();
+        h2_1 = $('.feed .entry-link h2').html();
+        loadFeed(2, function() {
+          h2_2 = $('.feed .entry-link h2').html();
           done();
         });
       });
     }, 10000);
 
     it('container context should change when loadFeed call', function(done) {
-      expect( h2_1).not.toEqual(h2_0);
+      expect(h2_1).not.toEqual(h2_2);
       done();
     });
 
